@@ -1,0 +1,6 @@
+---
+- name: Set up Minikube on a single EC2 instance
+  hosts: ec2_host
+  become: yes
+  roles:
+    - minikube

@@ -1,0 +1,40 @@
+---
+# tasks file for minikube
+
+- name: Install Required Dependencies
+  apt:
+    name:
+      -  apt-transport-https
+      -  curl
+      -  software-properties-common
+    state: present
+    update_cache: yes
+
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+
+- name: Add user to Docker group
+  user:
+    name: ubuntu
+    groups: docker
+    append: yes
+
+- name: Download Minikube binary
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /usr/local/bin/minikube
+    mode: '0755'
+
+- name: Download kubectl binary
+  get_url:
+    url: https://dl.k8s.io/release/v1.32.0/bin/linux/amd64/kubectl
+    dest: /usr/local/bin/kubectl
+    mode: '0755'
+
+- name: start minikube
+  shell: |
+    minikube start --driver=docker --v=9 --force
+  environment:
+    CHANGE_MINIKUBE_NONE_USER: "true"

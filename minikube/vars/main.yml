@@ -1,0 +1,4 @@
+---
+# vars file for minikube
+minikube_version: "latest"
+kubectl_version: "stable"
